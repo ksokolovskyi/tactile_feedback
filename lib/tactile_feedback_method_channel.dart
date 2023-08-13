@@ -23,9 +23,7 @@ class MethodChannelTactileFeedback extends TactileFeedbackPlatform {
         return _api.impact();
 
       default:
-        throw UnimplementedError(
-          '$defaultTargetPlatform platform is not supported',
-        );
+        // do nothing
     }
   }
 }
