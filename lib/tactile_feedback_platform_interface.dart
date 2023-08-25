@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:tactile_feedback/api.g.dart';
 
@@ -10,7 +11,9 @@ abstract class TactileFeedbackPlatform extends PlatformInterface
 
   static final Object _token = Object();
 
-  static TactileFeedbackPlatform _instance = MethodChannelTactileFeedback();
+  static TactileFeedbackPlatform _instance = MethodChannelTactileFeedback(
+    isWeb: kIsWeb,
+  );
 
   /// The default instance of [TactileFeedbackPlatform] to use.
   ///

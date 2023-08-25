@@ -6,8 +6,6 @@ import 'package:tactile_feedback/tactile_feedback_method_channel.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  final platform = MethodChannelTactileFeedback();
-
   const flutterPlatformChannel = OptionalMethodChannel(
     'flutter/platform',
     JSONMethodCodec(),
@@ -22,7 +20,36 @@ void main() {
   );
 
   group('MethodChannelTactileFeedback', () {
+    late MethodChannelTactileFeedback platform;
+
+    setUp(() {
+      platform = MethodChannelTactileFeedback(isWeb: false);
+    });
+
     group('impact', () {
+      test('does nothing when called on web', () async {
+        platform = MethodChannelTactileFeedback(isWeb: true);
+
+        debugDefaultTargetPlatformOverride = TargetPlatform.macOS;
+
+        var marker = 0;
+
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockDecodedMessageHandler(
+          tactileFeedbackChannel,
+          (_) async {
+            marker += 1;
+            return [];
+          },
+        );
+
+        await platform.impact();
+
+        debugDefaultTargetPlatformOverride = null;
+
+        expect(marker, equals(0));
+      });
+
       test(
           'does nothing '
           'when debugDefaultPlatform is not TargetPlatform.iOS, '
@@ -50,6 +77,8 @@ void main() {
         );
 
         await platform.impact();
+
+        debugDefaultTargetPlatformOverride = null;
 
         expect(marker, equals(0));
       });
@@ -84,6 +113,8 @@ void main() {
 
         await platform.impact();
 
+        debugDefaultTargetPlatformOverride = null;
+
         expect(marker, equals(1));
       });
 
@@ -117,6 +148,8 @@ void main() {
 
         await platform.impact();
 
+        debugDefaultTargetPlatformOverride = null;
+
         expect(marker, equals(1));
       });
 
@@ -137,6 +170,8 @@ void main() {
         );
 
         await platform.impact();
+
+        debugDefaultTargetPlatformOverride = null;
 
         expect(marker, equals(1));
       });
@@ -171,6 +206,8 @@ void main() {
                   equals('Unable to establish connection on channel.'),
                 ),
           );
+        } finally {
+          debugDefaultTargetPlatformOverride = null;
         }
       });
 
@@ -211,6 +248,8 @@ void main() {
                   equals('details'),
                 ),
           );
+        } finally {
+          debugDefaultTargetPlatformOverride = null;
         }
       });
     });

@@ -10,10 +10,20 @@ import 'tactile_feedback_platform_interface.dart';
 class MethodChannelTactileFeedback extends TactileFeedbackPlatform {
   final TactileFeedbackApi _api;
 
-  MethodChannelTactileFeedback() : _api = TactileFeedbackApi();
+  final bool _isWeb;
+
+  MethodChannelTactileFeedback({
+    required bool isWeb,
+  })  : _api = TactileFeedbackApi(),
+        _isWeb = isWeb;
 
   @override
   Future<void> impact() async {
+    if (_isWeb) {
+      // do nothing
+      return;
+    }
+
     switch (defaultTargetPlatform) {
       case TargetPlatform.iOS:
       case TargetPlatform.android:
@@ -23,7 +33,7 @@ class MethodChannelTactileFeedback extends TactileFeedbackPlatform {
         return _api.impact();
 
       default:
-        // do nothing
+      // do nothing
     }
   }
 }
