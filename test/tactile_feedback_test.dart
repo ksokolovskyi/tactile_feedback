@@ -1,3 +1,6 @@
+// ignore_for_file: non_constant_identifier_names
+
+import 'package:flutter/src/services/binary_messenger.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tactile_feedback/tactile_feedback.dart';
 import 'package:tactile_feedback/tactile_feedback_platform_interface.dart';
@@ -15,6 +18,12 @@ class MockTactileFeedbackPlatform
   Future<void> impact() async {
     callback();
   }
+
+  @override
+  BinaryMessenger? get pigeonVar_binaryMessenger => throw UnimplementedError();
+
+  @override
+  String get pigeonVar_messageChannelSuffix => throw UnimplementedError();
 }
 
 class NotImplementedTactileFeedbackPlatform extends TactileFeedbackPlatform {
@@ -31,25 +40,27 @@ void main() {
 
   group('impact', () {
     test(
-        'throws UnimplementedError '
-        'when not overridden', () async {
-      TactileFeedbackPlatform.instance =
-          NotImplementedTactileFeedbackPlatform();
+      'throws UnimplementedError '
+      'when not overridden',
+      () async {
+        TactileFeedbackPlatform.instance =
+            NotImplementedTactileFeedbackPlatform();
 
-      try {
-        await TactileFeedback.impact();
-        fail('UnimplementedError was not thrown');
-      } catch (e) {
-        expect(
-          e,
-          isA<UnimplementedError>().having(
-            (e) => e.message,
-            'message',
-            'impact() has not been implemented.',
-          ),
-        );
-      }
-    });
+        try {
+          await TactileFeedback.impact();
+          fail('UnimplementedError was not thrown');
+        } catch (e) {
+          expect(
+            e,
+            isA<UnimplementedError>().having(
+              (e) => e.message,
+              'message',
+              'impact() has not been implemented.',
+            ),
+          );
+        }
+      },
+    );
 
     test('calls impact method of the provided instance', () async {
       var marker = 0;

@@ -14,8 +14,8 @@ class MethodChannelTactileFeedback extends TactileFeedbackPlatform {
 
   MethodChannelTactileFeedback({
     required bool isWeb,
-  })  : _api = TactileFeedbackApi(),
-        _isWeb = isWeb;
+  }) : _api = TactileFeedbackApi(),
+       _isWeb = isWeb;
 
   @override
   Future<void> impact() async {

@@ -1,4 +1,7 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:tactile_feedback/api.g.dart';
 
@@ -32,4 +35,10 @@ abstract class TactileFeedbackPlatform extends PlatformInterface
   Future<void> impact() {
     throw UnimplementedError('impact() has not been implemented.');
   }
+
+  @override
+  BinaryMessenger? get pigeonVar_binaryMessenger => throw UnimplementedError();
+
+  @override
+  String get pigeonVar_messageChannelSuffix => throw UnimplementedError();
 }

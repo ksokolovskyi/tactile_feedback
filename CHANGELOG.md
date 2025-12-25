@@ -1,3 +1,8 @@
+# 1.1.0
+
+- chore(deps): bump minimum Dart SDK version to 3.9.0
+- chore(deps): upgrade dependencies
+
 # 1.0.2
 
 - fix: `impact` throwing errors on web
